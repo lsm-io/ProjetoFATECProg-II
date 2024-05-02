@@ -2,12 +2,25 @@ import tkinter as tk
 import ttkbootstrap as ttk
 from dbutils import *
 
-# janela de consulta da tabela
+# função que abre a janela de consulta da tabela
 def open_table_window():
+    global search_string
+    global table
+    global items
     items = show_all_produtos()
     table_window = ttk.Toplevel(window)
     table_window.title('Tabela de produtos')
     table_window.geometry('900x500')
+    table_window.grab_set()
+
+    search_string = tk.StringVar()
+    search_entry = tk.Entry(table_window, width=20, textvariable=search_string)
+    search_entry.bind("<Return>", outer_func)
+    search_entry.pack(side='top', fill='x', pady=5)
+
+    search_button = ttk.Button(table_window, text='Pesquisar', command = search_table)
+    search_button.pack(side='top', pady=5)
+
     table = ttk.Treeview(table_window, columns=('id', 'nome', 'categoria', 'marca', 'quantidade', 'preço'), show='headings')
     table.heading('id', text='ID')
     table.heading('nome', text='Nome')
@@ -21,9 +34,24 @@ def open_table_window():
     table.column('marca', width=50)
     table.column('quantidade', width=5)
     table.column('preço', width=5)
-    table.pack(fill = 'both', expand = True)
+    table.pack(fill='both', expand=True)
     for item in items:
         table.insert(parent='', index='end', values=item)
+
+def outer_func(_):
+    search_table()
+
+def search_table():
+    search_text = search_string.get().upper()
+    filtered_items = []
+    for item in items:
+        item_string = str(item)
+        if search_text in item_string.upper():
+            filtered_items.append(item)
+    table.delete(*table.get_children()) 
+    for item in filtered_items:
+        table.insert(parent='', index='end', values=item)
+
 
 def open_add_window():
     c = 2
@@ -41,12 +69,12 @@ def open_custom_window():
     d = 1
 
 
-# main window
+# janela principal
 window = ttk.Window(themename = 'flatly')
 window.title('Menu Principal')
 window.geometry('450x400')
 
-# labels
+# mensagem
 bem_vindo = tk.Label(master = window, text = 'Bem vindo', font = 'calibri 24 bold')
 bem_vindo.place(relx=0.5, rely=0.1, anchor='center')
 
