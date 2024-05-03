@@ -140,11 +140,16 @@ def delete_outer_func():
 
 def delete_prod():
     #messagebox.askokcancel('Tem certeza de que deseja deletar o produto com o ID: {id_string.get()} ?')
-    try:
-        delete_one(id_string.get())
-        messagebox.showinfo('Sucesso', 'Produto excluído com sucesso')
-    except:
-        messagebox.showerror('Erro', 'Produto não encontrado')
+    answer = messagebox.askyesno('Confirm', f'Tem certeza que deseja excluir o produto com id {id_string.get()}')
+    if answer:
+        try:
+            rowcount = delete_one(id_string.get())
+            if rowcount > 0:
+                messagebox.showinfo('Sucesso', 'Produto excluído com sucesso')
+            else:
+                messagebox.showerror('Erro', 'Produto não encontrado')
+        except:
+            messagebox.showerror('Erro', 'Erro')
     
 
 

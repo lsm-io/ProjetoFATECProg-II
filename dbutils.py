@@ -40,10 +40,11 @@ def modify(coluna, mod, id):
 def delete_one(id):
     connection = sqlite3.connect("loja.db")
     cursor = connection.cursor()
-    cursor.execute("DELETE FROM produtos WHERE id = (?)", (id,))
+    result = cursor.execute("DELETE FROM produtos WHERE id = (?)", (id,))
+    a = result.rowcount
     connection.commit()
     connection.close()
-
+    return a
 
 def custom_sql(code):
     connection = sqlite3.connect("loja.db")
