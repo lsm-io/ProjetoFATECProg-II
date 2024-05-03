@@ -29,12 +29,12 @@ def open_table_window():
     table.heading('marca', text='Marca')
     table.heading('quantidade', text='Quantidade')
     table.heading('preço', text='Preço')
-    table.column('id', width=1)
-    table.column('nome', width=250)
-    table.column('categoria', width=50)
-    table.column('marca', width=50)
-    table.column('quantidade', width=5)
-    table.column('preço', width=5)
+    table.column('id', width=1, anchor=tk.CENTER)
+    table.column('nome', width=250, anchor=tk.CENTER)
+    table.column('categoria', width=50, anchor=tk.CENTER)
+    table.column('marca', width=50, anchor=tk.CENTER)
+    table.column('quantidade', width=5, anchor=tk.CENTER)
+    table.column('preço', width=5, anchor=tk.CENTER)
     table.pack(fill='both', expand=True)
     for item in items:
         table.insert(parent='', index='end', values=item)
@@ -152,7 +152,6 @@ def delete_prod():
             messagebox.showerror('Erro', 'Erro')
     
 
-
 def open_delete_window():
     global id_string
     global query_result
@@ -191,7 +190,6 @@ def open_delete_window():
 
     delete_button = ttk.Button(delete_window, text='Excluir', command = delete_prod)
     delete_button.pack(side='top', pady=5)
-    delete_window.mainloop()
 
 
 def open_custom_window():

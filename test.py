@@ -1,17 +1,11 @@
-import tkinter as tk
-import sqlite3
-import tabulate
+from customtkinter import *
 
-def show_all_produtos():
-    connection = sqlite3.connect("loja.db")
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM produtos")
-    items = cursor.fetchall()
-    
-    print(tabulate.tabulate(items, headers=["ID", "Nome", "Categoria", "Marca", "Quantidade", "Preço"], tablefmt="grid"))
+app = CTk()
+app.geometry('500x400')
 
-    connection.commit()
-    connection.close()
+set_appearance_mode('dark')
 
+btn = CTkButton(master=app, text='Click Me', corner_radius=32, fg_color='#C850C0', hover_color='#4158D0', border_color='#FFCC70')
+btn.place(relx=0.5, rely=0.5, anchor='center')
 
-show_all_produtos()
+app.mainloop()

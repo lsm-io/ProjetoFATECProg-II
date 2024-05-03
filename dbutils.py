@@ -46,6 +46,7 @@ def delete_one(id):
     connection.close()
     return a
 
+# SQL query personaliada
 def custom_sql(code):
     connection = sqlite3.connect("loja.db")
     cursor = connection.cursor()
