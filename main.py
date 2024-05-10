@@ -194,28 +194,72 @@ def open_delete_window():
 
 def open_custom_window():
     d = 1
+           
+     
+def open_main_window():
+    # janela principal
+    global window
+    window = ttk.Toplevel(login_window)
+    window.title('Menu Principal')
+    window.geometry('450x400')
+
+    # mensagem
+    bem_vindo = tk.Label(master = window, text = 'Bem vindo', font = 'FiraCode 24 bold')
+    bem_vindo.place(relx=0.5, rely=0.1, anchor='center')
+
+    # botões
+    consultar_tabela_botao = ttk.Button(master = window, text = 'Consultar tabela', command = open_table_window, width = 50)
+    consultar_tabela_botao.place(relx=0.5, rely=0.3, anchor='center')
+    adicionar_produto_botao = ttk.Button(master = window, text = 'Adicionar produto', command = open_add_window, width = 50)
+    adicionar_produto_botao.place(relx=0.5, rely=0.4, anchor='center')
+    modificar_produto_botao = ttk.Button(master = window, text = 'Modificar produto', command = open_change_window, width = 50)
+    modificar_produto_botao.place(relx=0.5, rely=0.5, anchor='center')
+    excluir_produto_botao = ttk.Button(master = window, text = 'Excluir produto', command = open_delete_window, width = 50)
+    excluir_produto_botao.place(relx=0.5, rely=0.6, anchor='center')
+    consulta_custom_botao = ttk.Button(master = window, text = 'Consulta personalizada', command = open_custom_window, width = 50)
+    consulta_custom_botao.place(relx=0.5, rely=0.7, anchor='center')
+    login_window.withdraw()
+    window.protocol("WM_DELETE_WINDOW", on_closing)
 
 
-# janela principal
-window = ttk.Window(themename = 'flatly')
-window.title('Menu Principal')
-window.geometry('450x400')
+def on_closing():
+    login_window.destroy()
 
-# mensagem
-bem_vindo = tk.Label(master = window, text = 'Bem vindo', font = 'FiraCode 24 bold')
-bem_vindo.place(relx=0.5, rely=0.1, anchor='center')
 
-# botões
-consultar_tabela_botao = ttk.Button(master = window, text = 'Consultar tabela', command = open_table_window, width = 50)
-consultar_tabela_botao.place(relx=0.5, rely=0.3, anchor='center')
-adicionar_produto_botao = ttk.Button(master = window, text = 'Adicionar produto', command = open_add_window, width = 50)
-adicionar_produto_botao.place(relx=0.5, rely=0.4, anchor='center')
-modificar_produto_botao = ttk.Button(master = window, text = 'Modificar produto', command = open_change_window, width = 50)
-modificar_produto_botao.place(relx=0.5, rely=0.5, anchor='center')
-excluir_produto_botao = ttk.Button(master = window, text = 'Excluir produto', command = open_delete_window, width = 50)
-excluir_produto_botao.place(relx=0.5, rely=0.6, anchor='center')
-consulta_custom_botao = ttk.Button(master = window, text = 'Consulta personalizada', command = open_custom_window, width = 50)
-consulta_custom_botao.place(relx=0.5, rely=0.7, anchor='center')
+def login():
+    global counter
+    item = validate_login(login_str.get(), senha_str.get())
+    if counter == 0:
+            messagebox.showerror('Erro', 'Número de tentativas esgoatadas')
+            quit()
+    if item[0] > 0:
+        messagebox.showinfo('Sucesso', 'Login efetuado com sucesso')
+        open_main_window()
+        login_window.withdraw()
+    else:
+        messagebox.showerror('Erro', f'Usuário ou senha incorretos, {counter} tentativas restantes')
+        counter -= 1
 
-# run
-window.mainloop()
+
+# janela de login
+login_window = ttk.Window(themename = 'flatly')
+login_window.title('Login')
+login_window.geometry('300x200')
+login_window.grab_set()
+login_frame = ttk.Frame(login_window)
+
+counter = 2
+login_str = ttk.StringVar()
+senha_str = ttk.StringVar()
+login_label = ttk.Label(login_frame, text = 'Login: ')
+login_entry = ttk.Entry(login_frame, width = 20, textvariable = login_str)
+senha_label = ttk.Label(login_frame, text = 'Senha: ')
+senha_entry = ttk.Entry(login_frame, width = 20, show = '*', textvariable = senha_str)
+login_button = ttk.Button(login_frame, text = 'Entrar', command = login)
+login_label.grid(row = 0, column = 1)
+login_entry.grid(row = 1, column = 1)
+senha_label.grid(row = 2, column = 1)
+senha_entry.grid(row = 3, column = 1)
+login_button.grid(row = 4, column = 1)
+login_frame.pack()
+login_window.mainloop()

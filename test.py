@@ -1,11 +1,30 @@
-from customtkinter import *
+import tkinter as tk
+import sqlite3
+import tabulate
 
-app = CTk()
-app.geometry('500x400')
+def show_all_produtos():
+    connection = sqlite3.connect("loja.db")
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM produtos")
+    items = cursor.fetchall()
 
-set_appearance_mode('dark')
+    print(tabulate.tabulate(items, headers=["ID", "Nome", "Categoria", "Marca", "Quantidade", "Preço"], tablefmt="grid"))
 
-btn = CTkButton(master=app, text='Click Me', corner_radius=32, fg_color='#C850C0', hover_color='#4158D0', border_color='#FFCC70')
-btn.place(relx=0.5, rely=0.5, anchor='center')
+    connection.commit()
+    connection.close()
 
-app.mainloop()
+def validate_login(user, password):
+    connection = sqlite3.connect("loja.db")
+    cursor = connection.cursor()
+    cursor.execute("SELECT count(*) FROM usuarios WHERE user = (?) AND pw = (?)", (user, password))
+    item = cursor.fetchone()
+    connection.commit()
+    connection.close()
+    return item
+
+user = input('Enter username: ')
+password = input('Enter password: ')
+
+item = validate_login(user, password)
+if item[0] > 0:
+    print(item[0])

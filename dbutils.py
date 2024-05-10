@@ -1,5 +1,24 @@
 import sqlite3
 
+# def validate_login():
+#     connection = sqlite3.connect("loja.db")
+#     cursor = connection.cursor()
+#     cursor.execute("SELECT * FROM usuarios")
+#     items = cursor.fetchall()
+#     connection.commit()
+#     connection.close()
+#     return items
+
+
+def validate_login(user, password):
+    connection = sqlite3.connect("loja.db")
+    cursor = connection.cursor()
+    cursor.execute("SELECT count(*) FROM usuarios WHERE user = (?) AND pw = (?)", (user, password))
+    item = cursor.fetchone()
+    connection.commit()
+    connection.close()
+    return item
+
 # Seleciona todos os produtos da tabela
 def show_all_produtos():
     connection = sqlite3.connect("loja.db")
