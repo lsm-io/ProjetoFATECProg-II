@@ -22,7 +22,13 @@ def open_table_window():
     search_button = ttk.Button(table_window, text='Pesquisar', command = search_table)
     search_button.pack(side='top', pady=5)
 
-    table = ttk.Treeview(table_window, columns=('id', 'nome', 'categoria', 'marca', 'quantidade', 'preço'), show='headings')
+    table = ttk.Treeview(table_window, columns=('id', 
+                                                'nome', 
+                                                'categoria', 
+                                                'marca', 
+                                                'quantidade', 
+                                                'preço'), 
+                                                show='headings')
     table.heading('id', text='ID')
     table.heading('nome', text='Nome')
     table.heading('categoria', text='Categoria')
@@ -115,7 +121,7 @@ def open_add_window():
 def open_change_window():
     change_window = ttk.Toplevel(window)
     change_window.title('Modificar produto')
-    change_window.geometry('550x500')
+    change_window.geometry('550x600')
     change_window.grab_set()
     titulo = ttk.Label(change_window, text = 'Modificar Produto', font = 'FiraCode 24 bold')
     titulo.pack()
@@ -128,6 +134,49 @@ def open_change_window():
     lookup_button = ttk.Button(input_frame, text = 'Pesquisar')
     lookup_button.pack(side = 'left', padx = 5)
     input_frame.pack()
+    
+    id_add_string = ttk.StringVar()
+    id_label = ttk.Label(change_window, text = 'ID: ')
+    id_label.pack(side='top', fill='x', pady=5)
+    add_id = ttk.Entry(change_window, width = 45, textvariable = id_add_string)
+    add_id.pack(side='top', pady=5)
+    id_button = ttk.Button(change_window, width = 10, text = 'Modificar')
+    id_button.pack(side='top')
+    nome_add_string = ttk.StringVar()
+    nome_label = ttk.Label(change_window, text = 'Nome: ')
+    nome_label.pack(side='top', fill='x', pady=5)
+    add_nome = ttk.Entry(change_window, width = 45, textvariable = nome_add_string)
+    add_nome.pack(side='top', pady=5)
+    nome_button = ttk.Button(change_window, width = 10, text = 'Modificar')
+    nome_button.pack(side='top')
+    categoria_add_string = ttk.StringVar()
+    categoria_label = ttk.Label(change_window, text = 'Categoria: ')
+    categoria_label.pack(side='top', fill='x', pady=5)
+    add_categoria = ttk.Entry(change_window, width = 45, textvariable = categoria_add_string)
+    add_categoria.pack(side='top', pady=5)
+    categoria_button = ttk.Button(change_window, width = 10, text = 'Modificar')
+    categoria_button.pack(side='top')
+    marca_add_string = ttk.StringVar()
+    marca_label = ttk.Label(change_window, text = 'Marca: ')
+    marca_label.pack(side='top', fill='x', pady=5)
+    add_marca = ttk.Entry(change_window, width = 45, textvariable = marca_add_string)
+    add_marca.pack(side='top', pady=5)
+    marca_button = ttk.Button(change_window, width = 10, text = 'Modificar')
+    marca_button.pack(side='top')
+    quantidade_add_string = ttk.StringVar()
+    quantidade_label = ttk.Label(change_window, text = 'Quantidade: ')
+    quantidade_label.pack(side='top', fill='x', pady=5)
+    add_quantidade = ttk.Entry(change_window, width = 45, textvariable = quantidade_add_string)
+    add_quantidade.pack(side='top', pady=5)
+    quantidade_button = ttk.Button(change_window, width = 10, text = 'Modificar')
+    quantidade_button.pack(side = 'top')
+    preco_add_string = ttk.StringVar()
+    preco_label = ttk.Label(change_window, text = 'Preço: ')
+    preco_label.pack(side='top', fill='x', pady=5)
+    add_preco = ttk.Entry(change_window, width = 45, textvariable = preco_add_string)
+    add_preco.pack(side='top', pady=5)
+    preco_button = ttk.Button(change_window, width = 10, text = 'Modificar')
+    preco_button.pack(side = 'top')
 
 
 def delete_outer_func():
@@ -173,7 +222,14 @@ def open_delete_window():
     lookup_button = ttk.Button(input_frame, text = 'Pesquisar', command = delete_outer_func)
     lookup_button.pack(side = 'left', padx = 5)
     input_frame.pack()
-    table = ttk.Treeview(delete_window, columns=('id', 'nome', 'categoria', 'marca', 'quantidade', 'preço'), show='headings', height = 2)
+    table = ttk.Treeview(delete_window, columns=('id', 
+                                                 'nome', 
+                                                 'categoria', 
+                                                 'marca', 
+                                                 'quantidade', 
+                                                 'preço'), 
+                                                 show='headings', 
+                                                 height = 2)
     table.heading('id', text='ID')
     table.heading('nome', text='Nome')
     table.heading('categoria', text='Categoria')
@@ -226,6 +282,10 @@ def on_closing():
     login_window.destroy()
 
 
+def outer_login(_):
+    login()
+
+
 def login():
     global counter
     item = validate_login(login_str.get(), senha_str.get())
@@ -255,6 +315,7 @@ login_label = ttk.Label(login_frame, text = 'Login: ')
 login_entry = ttk.Entry(login_frame, width = 20, textvariable = login_str)
 senha_label = ttk.Label(login_frame, text = 'Senha: ')
 senha_entry = ttk.Entry(login_frame, width = 20, show = '*', textvariable = senha_str)
+senha_entry.bind("<Return>", outer_login)
 login_button = ttk.Button(login_frame, text = 'Entrar', command = login)
 login_label.grid(row = 0, column = 1)
 login_entry.grid(row = 1, column = 1)
