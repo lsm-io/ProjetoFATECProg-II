@@ -46,8 +46,10 @@ def open_table_window():
     for item in items:
         table.insert(parent='', index='end', values=item)
 
+
 def outer_func(_):
     search_table()
+
 
 def search_table():
     search_text = search_string.get().upper()
@@ -119,81 +121,108 @@ def open_add_window():
     add_button.pack(side='top', fill='x', pady=5)
 
 
+def pesquisar():
+    global lookup_string
+
+    result = lookup_one(lookup_string.get())
+    if result == []:
+        mod_id_string.set('')
+        mod_nome_string.set('')
+        mod_categoria_string.set('')
+        mod_marca_string.set('')
+        mod_quantidade_string.set('')
+        mod_preco_string.set('')
+        messagebox.showerror('Erro', 'Produto não encontrado')
+    else:
+        list = []
+        for item in result:
+            list.append(item[0])
+            list.append(item[1])
+            list.append(item[2])
+            list.append(item[3])
+            list.append(item[4])
+            list.append(item[5])
+        
+        mod_id_string.set(list[0])
+        mod_nome_string.set(list[1])
+        mod_categoria_string.set(list[2])
+        mod_marca_string.set(list[3])
+        mod_quantidade_string.set(list[4])
+        mod_preco_string.set(list[5])
+
+
+def update():
+    modify(mod_id_string, 
+           mod_nome_string, 
+           mod_categoria_string, 
+           mod_marca_string, 
+           mod_quantidade_string, 
+           mod_preco_string, 
+           lookup_string)
+
+
 def open_change_window():
+    global lookup_string
+    global mod_id_string
+    global mod_nome_string
+    global mod_categoria_string
+    global mod_marca_string
+    global mod_quantidade_string
+    global mod_preco_string
     change_window = ttk.Toplevel(window)
     change_window.title('Modificar produto')
-    change_window.geometry('550x380')
+    change_window.geometry('550x580')
     change_window.grab_set()
     titulo = ttk.Label(change_window, text = 'Modificar Produto', font = 'FiraCode 24 bold')
     titulo.pack()
 
+    lookup_string = ttk.StringVar()
     input_frame = ttk.Frame(change_window)
     id_lookup = ttk.Label(input_frame, text = 'Digite o ID do produto: ')
     id_lookup.pack(side = 'left')
-    lookup = ttk.Entry(input_frame, width = 5)
+    lookup = ttk.Entry(input_frame, width = 5, textvariable = lookup_string)
     lookup.pack(side = 'left', padx = 5)
-    lookup_button = ttk.Button(input_frame, text = 'Pesquisar')
+    lookup_button = ttk.Button(input_frame, text = 'Pesquisar', command = pesquisar)
     lookup_button.pack(side = 'left', padx = 5)
     input_frame.pack()
     padding = ttk.Label(change_window)
     padding.pack()
-    id_frame = ttk.Frame(change_window)
-    id_change_string = ttk.StringVar()
-    id_label = ttk.Label(id_frame, text = 'ID: ')
-    id_label.pack(side='left', fill='x', pady=5, padx = 26)
-    change_id = ttk.Entry(id_frame, width = 45, textvariable = id_change_string)
-    change_id.pack(side='left', pady=5)
-    id_button = ttk.Button(id_frame, width = 10, text = 'Modificar')
-    id_button.pack(side='left', padx = 10)
-    id_frame.pack()
-    nome_frame = ttk.Frame(change_window)
-    nome_add_string = ttk.StringVar()
-    nome_label = ttk.Label(nome_frame, text = 'Nome: ')
-    nome_label.pack(side='left', fill='x', pady=5, padx = 15)
-    add_nome = ttk.Entry(nome_frame, width = 45, textvariable = nome_add_string)
-    add_nome.pack(side='left', pady=5)
-    nome_button = ttk.Button(nome_frame, width = 10, text = 'Modificar')
-    nome_button.pack(side='left', padx = 10)
-    nome_frame.pack()
-    categoria_frame = ttk.Frame(change_window)
-    categoria_add_string = ttk.StringVar()
-    categoria_label = ttk.Label(categoria_frame, text = 'Categoria: ')
-    categoria_label.pack(side='left', fill='x', pady=5, padx = 6)
-    add_categoria = ttk.Entry(categoria_frame, width = 45, textvariable = categoria_add_string)
-    add_categoria.pack(side='left', pady=5)
-    categoria_button = ttk.Button(categoria_frame, width = 10, text = 'Modificar')
-    categoria_button.pack(side='left', padx = 10)
-    categoria_frame.pack()
-    marca_frame = ttk.Frame(change_window)
-    marca_add_string = ttk.StringVar()
-    marca_label = ttk.Label(marca_frame, text = 'Marca: ')
-    marca_label.pack(side='left', fill='x', pady=5, padx = 15)
-    add_marca = ttk.Entry(marca_frame, width = 45, textvariable = marca_add_string)
-    add_marca.pack(side='left', pady=5)
-    marca_button = ttk.Button(marca_frame, width = 10, text = 'Modificar')
-    marca_button.pack(side='left', padx = 10)
-    marca_frame.pack()
-    quantidade_frame = ttk.Frame(change_window)
-    quantidade_add_string = ttk.StringVar()
-    quantidade_label = ttk.Label(quantidade_frame, text = 'Quantidade: ')
-    quantidade_label.pack(side='left', fill='x', pady=5)
-    add_quantidade = ttk.Entry(quantidade_frame, width = 45, textvariable = quantidade_add_string)
-    add_quantidade.pack(side='left', pady=5)
-    quantidade_button = ttk.Button(quantidade_frame, width = 10, text = 'Modificar')
-    quantidade_button.pack(side = 'left', padx = 10)
-    quantidade_frame.pack()
-    preco_frame = ttk.Frame(change_window)
-    preco_add_string = ttk.StringVar()
-    preco_label = ttk.Label(preco_frame, text = 'Preço: ')
-    preco_label.pack(side='left', fill='x', pady=5, padx = 17)
-    add_preco = ttk.Entry(preco_frame, width = 45, textvariable = preco_add_string)
-    add_preco.pack(side='left', pady=5)
-    preco_button = ttk.Button(preco_frame, width = 10, text = 'Modificar')
-    preco_button.pack(side = 'left', padx = 10)
-    preco_frame.pack()
+    mod_id_string = ttk.StringVar(value = '1')
+    mod_nome_string = ttk.StringVar()
+    mod_categoria_string = ttk.StringVar()
+    mod_marca_string = ttk.StringVar()
+    mod_quantidade_string = ttk.StringVar()
+    mod_preco_string = ttk.StringVar()
+    mod_frame = ttk.Frame(change_window)
+    id_label = ttk.Label(mod_frame, text = 'ID:')
+    id_entry = ttk.Entry(mod_frame, width = 40, textvariable = mod_id_string, bootstyle="dark")
+    nome_label = ttk.Label(mod_frame, text = 'Nome:')
+    nome_entry = ttk.Entry(mod_frame, width = 40, textvariable = mod_nome_string, bootstyle="dark")
+    categoria_label = ttk.Label(mod_frame, text = 'Categoria:')
+    categoria_entry = ttk.Entry(mod_frame, width = 40, textvariable = mod_categoria_string, bootstyle="dark")
+    marca_label = ttk.Label(mod_frame, text = 'Marca:')
+    marca_entry = ttk.Entry(mod_frame, width = 40, textvariable = mod_marca_string, bootstyle = 'dark')
+    quantidade_label = ttk.Label(mod_frame, text = 'Quantidade:')
+    quantidade_entry = ttk.Entry(mod_frame, width = 40, textvariable = mod_quantidade_string, bootstyle = 'dark')
+    preco_label = ttk.Label(mod_frame, text = 'Preço:')
+    preco_entry = ttk.Entry(mod_frame, width = 40, textvariable = mod_preco_string, bootstyle = 'dark')
+    mod_button = ttk.Button(mod_frame, text = 'Modificar', command = update, bootstyle="info")
+    id_label.grid(row = 0, column = 1)
+    id_entry.grid(row = 1, column = 1)
+    nome_label.grid(row = 2, column = 1)
+    nome_entry.grid(row = 3, column = 1)
+    categoria_label.grid(row = 4, column = 1)
+    categoria_entry.grid(row = 5, column = 1)
+    marca_label.grid(row = 6, column = 1)
+    marca_entry.grid(row = 7, column = 1)
+    quantidade_label.grid(row = 8, column = 1)
+    quantidade_entry.grid(row = 9, column = 1)
+    preco_label.grid(row = 10, column = 1)
+    preco_entry.grid(row = 11, column = 1)
+    mod_button.grid(row = 12, column = 1, pady = 10)
+    mod_frame.pack()
+
     
-
-
 def delete_outer_func():
     global query_result
     table.delete(*table.get_children())
