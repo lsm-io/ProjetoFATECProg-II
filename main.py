@@ -64,11 +64,14 @@ def search_table():
 
 
 def add_outer_func():
-    try:
-        add_one(nome_add_string.get(), categoria_add_string.get(), marca_add_string.get(), quantidade_add_string.get(), preco_add_string.get())
-        messagebox.showinfo('Sucesso', 'Produto adicionado com sucesso!')
-    except:
-        messagebox.showerror('Erro', 'Erro ao adicionar produto')
+    if nome_add_string.get() == '' or categoria_add_string.get() == '' or marca_add_string.get() == '' or quantidade_add_string.get() == '' or preco_add_string.get() == '':
+        messagebox.showerror('Erro', 'Preencha todos os campos!')
+    else:
+        try:
+            add_one(nome_add_string.get(), categoria_add_string.get(), marca_add_string.get(), quantidade_add_string.get(), preco_add_string.get())
+            messagebox.showinfo('Sucesso', 'Produto adicionado com sucesso!')
+        except:
+            messagebox.showerror('Erro', 'Erro ao adicionar produto')
 
 
 def open_add_window():
@@ -84,39 +87,34 @@ def open_add_window():
     add_window.grab_set()
     titulo = ttk.Label(add_window, text = 'Adicionar Produto', font = 'montserrat 24')
     titulo.pack()
-    id_add_string = ttk.StringVar()
-    id_label = ttk.Label(add_window, text = 'ID: ')
-    id_label.pack(side='top', fill='x', pady=5)
-    add_id = ttk.Entry(add_window, width = 20, textvariable = id_add_string)
-    add_id.pack(side='top', fill='x', pady=5)
     nome_add_string = ttk.StringVar()
     nome_label = ttk.Label(add_window, text = 'Nome: ')
-    nome_label.pack(side='top', fill='x', pady=5)
-    add_nome = ttk.Entry(add_window, width = 20, textvariable = nome_add_string)
-    add_nome.pack(side='top', fill='x', pady=5)
+    nome_label.pack(side='top', pady=5)
+    add_nome = ttk.Entry(add_window, width = 40, textvariable = nome_add_string)
+    add_nome.pack(side='top', pady=5)
     categoria_add_string = ttk.StringVar()
     categoria_label = ttk.Label(add_window, text = 'Categoria: ')
-    categoria_label.pack(side='top', fill='x', pady=5)
-    add_categoria = ttk.Entry(add_window, width = 20, textvariable = categoria_add_string)
-    add_categoria.pack(side='top', fill='x', pady=5)
+    categoria_label.pack(side='top', pady=5)
+    add_categoria = ttk.Entry(add_window, width = 40, textvariable = categoria_add_string)
+    add_categoria.pack(side='top', pady=5)
     marca_add_string = ttk.StringVar()
     marca_label = ttk.Label(add_window, text = 'Marca: ')
-    marca_label.pack(side='top', fill='x', pady=5)
-    add_marca = ttk.Entry(add_window, width = 20, textvariable = marca_add_string)
-    add_marca.pack(side='top', fill='x', pady=5)
+    marca_label.pack(side='top', pady=5)
+    add_marca = ttk.Entry(add_window, width = 40, textvariable = marca_add_string)
+    add_marca.pack(side='top', pady=5)
     quantidade_add_string = ttk.StringVar()
     quantidade_label = ttk.Label(add_window, text = 'Quantidade: ')
-    quantidade_label.pack(side='top', fill='x', pady=5)
-    add_quantidade = ttk.Entry(add_window, width = 20, textvariable = quantidade_add_string)
-    add_quantidade.pack(side='top', fill='x', pady=5)
+    quantidade_label.pack(side='top', pady=5)
+    add_quantidade = ttk.Entry(add_window, width = 40, textvariable = quantidade_add_string)
+    add_quantidade.pack(side='top', pady=5)
     preco_add_string = ttk.StringVar()
     preco_label = ttk.Label(add_window, text = 'Preço: ')
-    preco_label.pack(side='top', fill='x', pady=5)
-    add_preco = ttk.Entry(add_window, width = 20, textvariable = preco_add_string)
-    add_preco.pack(side='top', fill='x', pady=5)
+    preco_label.pack(side='top', pady=5)
+    add_preco = ttk.Entry(add_window, width = 40, textvariable = preco_add_string)
+    add_preco.pack(side='top', pady=5)
 
     add_button = ttk.Button(add_window, text='Adicionar', command = add_outer_func)
-    add_button.pack(side='top', fill='x', pady=5)
+    add_button.pack(side='top', pady=5)
 
 
 def pesquisar():
