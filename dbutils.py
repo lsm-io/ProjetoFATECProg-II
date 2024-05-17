@@ -40,10 +40,10 @@ def lookup_one(id: str):
     return item
 
 # Adiciona uma nova entrada na tabela
-def add_one(id, nome, categoria, marca, quantidade, preco):
+def add_one(nome, categoria, marca, quantidade, preco):
     connection = sqlite3.connect("loja.db")
     cursor = connection.cursor()
-    cursor.execute("INSERT INTO produtos VALUES (?,?,?,?,?,?)", (id, nome, categoria, marca, quantidade, preco))
+    cursor.execute("INSERT INTO produtos (nome, categoria, marca, quantidade, preco) VALUES (?,?,?,?,?)", (nome, categoria, marca, quantidade, preco))
     connection.commit()
     connection.close()
 

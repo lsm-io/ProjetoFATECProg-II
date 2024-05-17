@@ -16,7 +16,7 @@ def open_table_window():
     table_window.grab_set()
 
     search_string = tk.StringVar()
-    search_entry = tk.Entry(table_window, width=20, textvariable=search_string)
+    search_entry = ttk.Entry(table_window, width=20, textvariable=search_string)
     search_entry.bind("<Return>", outer_func)
     search_entry.pack(side='top', fill='x', pady=5)
 
@@ -64,13 +64,11 @@ def search_table():
 
 
 def add_outer_func():
-    id_str = id_add_string.get()
-    nome_str = nome_add_string.get()
-    categoria_str = categoria_add_string.get()
-    marca_str = marca_add_string.get()
-    quantidade_str = quantidade_add_string.get()
-    preco_str = preco_add_string.get()
-    add_one(id_str, nome_str, categoria_str, marca_str, quantidade_str, preco_str)
+    try:
+        add_one(nome_add_string.get(), categoria_add_string.get(), marca_add_string.get(), quantidade_add_string.get(), preco_add_string.get())
+        messagebox.showinfo('Sucesso', 'Produto adicionado com sucesso!')
+    except:
+        messagebox.showerror('Erro', 'Erro ao adicionar produto')
 
 
 def open_add_window():
@@ -84,7 +82,7 @@ def open_add_window():
     add_window.title('Adicionar produto')
     add_window.geometry('550x500')
     add_window.grab_set()
-    titulo = ttk.Label(add_window, text = 'Adicionar Produto', font = 'FiraCode 24 bold')
+    titulo = ttk.Label(add_window, text = 'Adicionar Produto', font = 'montserrat 24')
     titulo.pack()
     id_add_string = ttk.StringVar()
     id_label = ttk.Label(add_window, text = 'ID: ')
@@ -123,7 +121,6 @@ def open_add_window():
 
 def pesquisar():
     global lookup_string
-
     result = lookup_one(lookup_string.get())
     if result == []:
         mod_id_string.set('')
@@ -165,7 +162,6 @@ def update():
         messagebox.showerror('Erro', 'Erro')
 
 
-
 def open_change_window():
     global lookup_string
     global mod_id_string
@@ -178,7 +174,7 @@ def open_change_window():
     change_window.title('Modificar produto')
     change_window.geometry('550x580')
     change_window.grab_set()
-    titulo = ttk.Label(change_window, text = 'Modificar Produto', font = 'FiraCode 24 bold')
+    titulo = ttk.Label(change_window, text = 'Modificar Produto', font = 'montserrat 24')
     titulo.pack()
 
     lookup_string = ttk.StringVar()
@@ -260,7 +256,7 @@ def open_delete_window():
     delete_window.title('Excluir produto')
     delete_window.geometry('800x300')
     delete_window.grab_set()
-    titulo = ttk.Label(delete_window, text = 'Excluir Produto', font = 'FiraCode 24 bold')
+    titulo = ttk.Label(delete_window, text = 'Excluir Produto', font = 'montserrat 24')
     titulo.pack()
     input_frame = ttk.Frame(delete_window)
     id_lookup = ttk.Label(input_frame, text = 'Digite o ID do produto: ')
@@ -306,7 +302,7 @@ def open_main_window():
     window_frame = ttk.Frame(window)
 
     # mensagem
-    bem_vindo = tk.Label(master = window_frame, text = 'Bem vindo', font = 'FiraCode 24 bold')
+    bem_vindo = tk.Label(master = window_frame, text = 'Bem vindo', font = 'montserrat 24')
     bem_vindo.grid(row = 0, column = 1)
 
     # botões
