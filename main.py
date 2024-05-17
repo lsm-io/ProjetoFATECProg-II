@@ -152,13 +152,18 @@ def pesquisar():
 
 
 def update():
-    modify(mod_id_string, 
-           mod_nome_string, 
-           mod_categoria_string, 
-           mod_marca_string, 
-           mod_quantidade_string, 
-           mod_preco_string, 
-           lookup_string)
+    try:
+        modify(mod_id_string.get(), 
+           mod_nome_string.get(), 
+           mod_categoria_string.get(), 
+           mod_marca_string.get(), 
+           mod_quantidade_string.get(), 
+           mod_preco_string.get(), 
+           lookup_string.get())
+        messagebox.showinfo('Sucesso', 'Produto modificado com sucesso')
+    except:
+        messagebox.showerror('Erro', 'Erro')
+
 
 
 def open_change_window():
@@ -187,7 +192,7 @@ def open_change_window():
     input_frame.pack()
     padding = ttk.Label(change_window)
     padding.pack()
-    mod_id_string = ttk.StringVar(value = '1')
+    mod_id_string = ttk.StringVar()
     mod_nome_string = ttk.StringVar()
     mod_categoria_string = ttk.StringVar()
     mod_marca_string = ttk.StringVar()

@@ -48,10 +48,17 @@ def add_one(id, nome, categoria, marca, quantidade, preco):
     connection.close()
 
 # Modifica uma entrada da tabela
-def modify(coluna, mod, id):
-    connection = sqlite3.connect("loja,db")
+def modify(mod1, mod2, mod3, mod4, mod5, mod6, id):
+    connection = sqlite3.connect("loja.db")
     cursor = connection.cursor()
-    cursor.execute("UPDATE produtos SET (?) = (?) WHERE id = (?)", (coluna, mod, id))
+    cursor.execute("""UPDATE produtos SET id = (?), 
+                   nome = (?), 
+                   categoria = (?), 
+                   marca = (?), 
+                   quantidade = (?), 
+                   preco = (?) 
+                   WHERE id = (?)""", 
+                   (mod1, mod2, mod3, mod4, mod5, mod6, id))
     connection.commit()
     connection.close()
 
