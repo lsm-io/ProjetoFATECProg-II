@@ -4,7 +4,7 @@ from tkinter import *
 from dbutils import *
 from tkinter import messagebox
 
-# função que abre a janela de consulta da tabela
+# abre e constrói a janela de consulta da tabela
 def open_table_window():
     global search_string
     global table
@@ -23,7 +23,7 @@ def open_table_window():
     search_button = ttk.Button(table_window, text='Pesquisar', command = search_table, bootstyle="info")
     search_button.pack(side='top', pady=5)
 
-    table = ttk.Treeview(table_window, columns=('id', 
+    table = ttk.Treeview(table_window, columns=('id', # Inicializa o widget da tabela
                                                 'nome', 
                                                 'categoria', 
                                                 'marca', 
@@ -43,7 +43,7 @@ def open_table_window():
     table.column('quantidade', width=5, anchor=tk.CENTER)
     table.column('preço', width=5, anchor=tk.CENTER)
     table.pack(fill='both', expand=True)
-    for item in items:
+    for item in items: # Preenche a tablea com os dados
         table.insert(parent='', index='end', values=item)
 
 
@@ -51,6 +51,7 @@ def outer_func(_):
     search_table()
 
 
+# busca na tabela 
 def search_table():
     search_text = search_string.get().upper()
     filtered_items = []
@@ -63,6 +64,7 @@ def search_table():
         table.insert(parent='', index='end', values=item)
 
 
+# adiciona os dados fornecidos pelo usuário no banco de dados
 def add_outer_func():
     if nome_add_string.get() == '' or categoria_add_string.get() == '' or marca_add_string.get() == '' or quantidade_add_string.get() == '' or preco_add_string.get() == '':
         messagebox.showerror('Erro', 'Preencha todos os campos!')
@@ -74,6 +76,7 @@ def add_outer_func():
             messagebox.showerror('Erro', 'Erro ao adicionar produto')
 
 
+# abre e constrói a janela de adicionar
 def open_add_window():
     global id_add_string
     global nome_add_string
@@ -117,19 +120,20 @@ def open_add_window():
     add_button.pack(side='top', pady=5)
 
 
+# busca no banco de dados o produto com o ID fornecido
 def pesquisar():
     global lookup_string
-    result = lookup_one(lookup_string.get())
-    if result == []:
+    result = lookup_one(lookup_string.get()) # retorna uma lista de tuplas
+    if result == []: # se a busca retornar uma lista em branca
         mod_id_string.set('')
         mod_nome_string.set('')
         mod_categoria_string.set('')
         mod_marca_string.set('')
         mod_quantidade_string.set('')
         mod_preco_string.set('')
-        messagebox.showerror('Erro', 'Produto não encontrado')
+        messagebox.showerror('Erro', 'Produto não encontrado') # retorna o erro
     else:
-        list = []
+        list = [] # inicializa uma nova lista com os dados 
         for item in result:
             list.append(item[0])
             list.append(item[1])
@@ -138,6 +142,7 @@ def pesquisar():
             list.append(item[4])
             list.append(item[5])
         
+        # define o campo de entrada dos widgets com os dados recebidos do banco
         mod_id_string.set(list[0])
         mod_nome_string.set(list[1])
         mod_categoria_string.set(list[2])
@@ -146,6 +151,7 @@ def pesquisar():
         mod_preco_string.set(list[5])
 
 
+# modifica o produto de acordo com os dados modificados recebidos
 def update():
     try:
         modify(mod_id_string.get(), 
@@ -156,10 +162,11 @@ def update():
            mod_preco_string.get(), 
            lookup_string.get())
         messagebox.showinfo('Sucesso', 'Produto modificado com sucesso')
-    except:
+    except: 
         messagebox.showerror('Erro', 'Erro')
 
 
+# abre e constrói a janela de modificar
 def open_change_window():
     global lookup_string
     global mod_id_string
@@ -222,7 +229,8 @@ def open_change_window():
     mod_frame.pack()
 
     
-def delete_outer_func():
+# preenche a tabela com os dados recebidos do banco de dados
+def delete_search():
     global query_result
     table.delete(*table.get_children())
     query_result = lookup_one(id_string.get())
@@ -230,20 +238,21 @@ def delete_outer_func():
         table.insert(parent='', index='end', values=item)
 
 
+# exclui o produto de acordo com o id digitado
 def delete_prod():
-    #messagebox.askokcancel('Tem certeza de que deseja deletar o produto com o ID: {id_string.get()} ?')
     answer = messagebox.askyesno('Confirm', f'Tem certeza que deseja excluir o produto com id {id_string.get()}')
     if answer:
         try:
-            rowcount = delete_one(id_string.get())
-            if rowcount > 0:
+            rowcount = delete_one(id_string.get()) # recebe o número de fileiras modificadas pelo banco de dados
+            if rowcount > 0: # se o número for maior que 0, significa que a exclusão ocorreu de fato
                 messagebox.showinfo('Sucesso', 'Produto excluído com sucesso')
-            else:
+            else: # senão o produto correspondente ao id não existe 
                 messagebox.showerror('Erro', 'Produto não encontrado')
         except:
             messagebox.showerror('Erro', 'Erro')
     
 
+# abre e constrói a janela de excluir
 def open_delete_window():
     global id_string
     global query_result
@@ -262,7 +271,7 @@ def open_delete_window():
     id_string = ttk.StringVar()
     lookup = ttk.Entry(input_frame, width = 5, textvariable = id_string)
     lookup.pack(side = 'left', padx = 5)
-    lookup_button = ttk.Button(input_frame, text = 'Pesquisar', command = delete_outer_func)
+    lookup_button = ttk.Button(input_frame, text = 'Pesquisar', command = delete_search)
     lookup_button.pack(side = 'left', padx = 5)
     input_frame.pack()
     table = ttk.Treeview(delete_window, columns=('id', 
@@ -290,20 +299,18 @@ def open_delete_window():
     delete_button = ttk.Button(delete_window, text='Excluir', command = delete_prod)
     delete_button.pack(side='top', pady=5)
            
-     
+    
+# abre e constrói a janela de menu principal
 def open_main_window():
-    # janela principal
     global window
     window = ttk.Toplevel(login_window)
     window.title('Menu Principal')
     window.geometry('400x300')
     window_frame = ttk.Frame(window)
 
-    # mensagem
     bem_vindo = tk.Label(master = window_frame, text = 'Bem vindo', font = 'montserrat 24')
     bem_vindo.grid(row = 0, column = 1)
 
-    # botões
     consultar_tabela_botao = ttk.Button(master = window_frame, text = 'Consultar tabela', command = open_table_window, width = 50, bootstyle="info")
     consultar_tabela_botao.grid(row = 1, column = 1, pady = 10)
     adicionar_produto_botao = ttk.Button(master = window_frame, text = 'Adicionar produto', command = open_add_window, width = 50, bootstyle="info")
@@ -317,6 +324,7 @@ def open_main_window():
     window.protocol("WM_DELETE_WINDOW", on_closing)
 
 
+# ao fechar a janela principal, encerra o processo de fundo de plano
 def on_closing():
     login_window.destroy()
 
@@ -325,6 +333,7 @@ def outer_login(_):
     login()
 
 
+# valida o login e senha digitados
 def login():
     global counter
     item = validate_login(login_str.get(), senha_str.get())
@@ -340,7 +349,7 @@ def login():
         counter -= 1
 
 
-# janela de login
+# inicializa o programa pela janela de login
 login_window = ttk.Window(themename = 'darkly')
 login_window.title('Login')
 login_window.geometry('300x200')

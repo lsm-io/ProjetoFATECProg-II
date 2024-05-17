@@ -1,15 +1,6 @@
 import sqlite3
 
-# def validate_login():
-#     connection = sqlite3.connect("loja.db")
-#     cursor = connection.cursor()
-#     cursor.execute("SELECT * FROM usuarios")
-#     items = cursor.fetchall()
-#     connection.commit()
-#     connection.close()
-#     return items
-
-
+# Validação de login
 def validate_login(user, password):
     connection = sqlite3.connect("loja.db")
     cursor = connection.cursor()
@@ -62,7 +53,7 @@ def modify(mod1, mod2, mod3, mod4, mod5, mod6, id):
     connection.commit()
     connection.close()
 
-# Exclui uma entrada da tabela
+# Exclui uma entrada da tabela de acordo com o ID
 def delete_one(id):
     connection = sqlite3.connect("loja.db")
     cursor = connection.cursor()
@@ -71,14 +62,3 @@ def delete_one(id):
     connection.commit()
     connection.close()
     return a
-
-# SQL query personaliada
-def custom_sql(code):
-    connection = sqlite3.connect("loja.db")
-    cursor = connection.cursor()
-    cursor.execute(code)
-    items = cursor.fetchall()
-    for item in items:
-        print(item[0] + "\t\t" + item[1] + "\t\t" + item[2] + "\t\t" + item[3] + "\t\t" + item[4] + "\t\t" + item[5])
-    connection.commit()
-    connection.close()
