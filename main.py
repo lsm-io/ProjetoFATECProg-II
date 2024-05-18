@@ -29,7 +29,8 @@ def open_table_window():
                                                 'marca', 
                                                 'quantidade', 
                                                 'preço'), 
-                                                show='headings', bootstyle = 'info')
+                                                show='headings', 
+                                                bootstyle = 'info')
     table.heading('id', text='ID')
     table.heading('nome', text='Nome')
     table.heading('categoria', text='Categoria')
@@ -314,13 +315,29 @@ def open_main_window():
     bem_vindo = tk.Label(master = window_frame, text = 'Bem vindo', font = 'montserrat 24')
     bem_vindo.grid(row = 0, column = 1)
 
-    consultar_tabela_botao = ttk.Button(master = window_frame, text = 'Consultar tabela', command = open_table_window, width = 50, bootstyle="info")
+    consultar_tabela_botao = ttk.Button(master = window_frame, 
+                                        text = 'Consultar tabela', 
+                                        command = open_table_window, 
+                                        width = 50, 
+                                        bootstyle="info")
     consultar_tabela_botao.grid(row = 1, column = 1, pady = 10)
-    adicionar_produto_botao = ttk.Button(master = window_frame, text = 'Adicionar produto', command = open_add_window, width = 50, bootstyle="info")
+    adicionar_produto_botao = ttk.Button(master = window_frame, 
+                                         text = 'Adicionar produto', 
+                                         command = open_add_window, 
+                                         width = 50, 
+                                         bootstyle="info")
     adicionar_produto_botao.grid(row = 2, column = 1, pady = 10)
-    modificar_produto_botao = ttk.Button(master = window_frame, text = 'Modificar produto', command = open_change_window, width = 50, bootstyle="info")
+    modificar_produto_botao = ttk.Button(master = window_frame, 
+                                         text = 'Modificar produto', 
+                                         command = open_change_window, 
+                                         width = 50, 
+                                         bootstyle="info")
     modificar_produto_botao.grid(row = 3, column = 1, pady = 10)
-    excluir_produto_botao = ttk.Button(master = window_frame, text = 'Excluir produto', command = open_delete_window, width = 50, bootstyle="info")
+    excluir_produto_botao = ttk.Button(master = window_frame, 
+                                       text = 'Excluir produto', 
+                                       command = open_delete_window, 
+                                       width = 50, 
+                                       bootstyle="info")
     excluir_produto_botao.grid(row = 4, column = 1, pady = 10)
     window_frame.pack()
     login_window.withdraw()
