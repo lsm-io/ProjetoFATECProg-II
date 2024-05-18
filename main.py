@@ -116,7 +116,7 @@ def open_add_window():
     add_preco = ttk.Entry(add_window, width = 40, textvariable = preco_add_string)
     add_preco.pack(side='top', pady=5)
 
-    add_button = ttk.Button(add_window, text='Adicionar', command = add_outer_func)
+    add_button = ttk.Button(add_window, text='Adicionar', command = add_outer_func, bootstyle = 'info')
     add_button.pack(side='top', pady=5)
 
 
@@ -124,13 +124,14 @@ def open_add_window():
 def pesquisar():
     global lookup_string
     result = lookup_one(lookup_string.get()) # retorna uma lista de tuplas
-    if result == []: # se a busca retornar uma lista em branca
+    if result == []: # se a busca retornar uma lista em branco
         mod_id_string.set('')
         mod_nome_string.set('')
         mod_categoria_string.set('')
         mod_marca_string.set('')
         mod_quantidade_string.set('')
         mod_preco_string.set('')
+        mod_button['state'] = 'disabled'
         messagebox.showerror('Erro', 'Produto não encontrado') # retorna o erro
     else:
         list = [] # inicializa uma nova lista com os dados 
@@ -149,6 +150,7 @@ def pesquisar():
         mod_marca_string.set(list[3])
         mod_quantidade_string.set(list[4])
         mod_preco_string.set(list[5])
+        mod_button['state'] = 'normal'
 
 
 # modifica o produto de acordo com os dados modificados recebidos
@@ -168,6 +170,7 @@ def update():
 
 # abre e constrói a janela de modificar
 def open_change_window():
+    global mod_button
     global lookup_string
     global mod_id_string
     global mod_nome_string
@@ -177,7 +180,7 @@ def open_change_window():
     global mod_preco_string
     change_window = ttk.Toplevel(window)
     change_window.title('Modificar produto')
-    change_window.geometry('550x580')
+    change_window.geometry('550x450')
     change_window.grab_set()
     titulo = ttk.Label(change_window, text = 'Modificar Produto', font = 'montserrat 24')
     titulo.pack()
@@ -188,7 +191,7 @@ def open_change_window():
     id_lookup.pack(side = 'left')
     lookup = ttk.Entry(input_frame, width = 5, textvariable = lookup_string)
     lookup.pack(side = 'left', padx = 5)
-    lookup_button = ttk.Button(input_frame, text = 'Pesquisar', command = pesquisar)
+    lookup_button = ttk.Button(input_frame, text = 'Pesquisar', command = pesquisar, bootstyle = 'info')
     lookup_button.pack(side = 'left', padx = 5)
     input_frame.pack()
     padding = ttk.Label(change_window)
@@ -261,7 +264,7 @@ def open_delete_window():
     global lookup
     delete_window = ttk.Toplevel(window)
     delete_window.title('Excluir produto')
-    delete_window.geometry('800x300')
+    delete_window.geometry('1000x200')
     delete_window.grab_set()
     titulo = ttk.Label(delete_window, text = 'Excluir Produto', font = 'montserrat 24')
     titulo.pack()
@@ -271,7 +274,7 @@ def open_delete_window():
     id_string = ttk.StringVar()
     lookup = ttk.Entry(input_frame, width = 5, textvariable = id_string)
     lookup.pack(side = 'left', padx = 5)
-    lookup_button = ttk.Button(input_frame, text = 'Pesquisar', command = delete_search)
+    lookup_button = ttk.Button(input_frame, text = 'Pesquisar', command = delete_search, bootstyle = 'info')
     lookup_button.pack(side = 'left', padx = 5)
     input_frame.pack()
     table = ttk.Treeview(delete_window, columns=('id', 
@@ -281,22 +284,22 @@ def open_delete_window():
                                                  'quantidade', 
                                                  'preço'), 
                                                  show='headings', 
-                                                 height = 2)
+                                                 height = 2, bootstyle = 'info')
     table.heading('id', text='ID')
     table.heading('nome', text='Nome')
     table.heading('categoria', text='Categoria')
     table.heading('marca', text='Marca')
     table.heading('quantidade', text='Quantidade')
     table.heading('preço', text='Preço')
-    table.column('id', width=1)
-    table.column('nome', width=100)
-    table.column('categoria', width=50)
-    table.column('marca', width=50)
-    table.column('quantidade', width=1)
-    table.column('preço', width=1)
+    table.column('id', width=1, anchor=tk.CENTER)
+    table.column('nome', width=250, anchor=tk.CENTER)
+    table.column('categoria', width=50, anchor=tk.CENTER)
+    table.column('marca', width=50, anchor=tk.CENTER)
+    table.column('quantidade', width=1, anchor=tk.CENTER)
+    table.column('preço', width=1, anchor=tk.CENTER)
     table.pack(fill = 'x', pady=5)
 
-    delete_button = ttk.Button(delete_window, text='Excluir', command = delete_prod)
+    delete_button = ttk.Button(delete_window, text='Excluir', command = delete_prod, bootstyle = 'danger')
     delete_button.pack(side='top', pady=5)
            
     
@@ -350,7 +353,7 @@ def login():
 
 
 # inicializa o programa pela janela de login
-login_window = ttk.Window(themename = 'darkly')
+login_window = ttk.Window(themename = 'flatly')
 login_window.title('Login')
 login_window.geometry('300x200')
 login_window.grab_set()
