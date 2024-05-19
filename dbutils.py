@@ -10,6 +10,15 @@ def validate_login(user, password):
     connection.close()
     return item
 
+
+def register_user(username, password):
+    connection = sqlite3.connect("loja.db")
+    cursor = connection.cursor()
+    cursor.execute("INSERT INTO usuarios (user, pw) VALUES (?,?)", (username, password))
+    connection.commit()
+    connection.close()
+
+
 # Seleciona todos os produtos da tabela
 def show_all_produtos():
     connection = sqlite3.connect("loja.db")

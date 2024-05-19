@@ -3,6 +3,7 @@ import ttkbootstrap as ttk
 from tkinter import *
 from dbutils import *
 from tkinter import messagebox
+import hashlib
 
 # abre e constrói a janela de consulta da tabela
 def open_table_window():
@@ -356,7 +357,8 @@ def outer_login(_):
 # valida o login e senha digitados
 def login():
     global counter
-    item = validate_login(login_str.get(), senha_str.get())
+    encrypted_password = hashlib.sha256(senha_str.get().encode()).hexdigest()
+    item = validate_login(login_str.get(), encrypted_password)
     if counter == 0:
             messagebox.showerror('Erro', 'Número de tentativas esgoatadas')
             quit()
@@ -368,6 +370,52 @@ def login():
         messagebox.showerror('Erro', f'Usuário ou senha incorretos, {counter} tentativas restantes')
         counter -= 1
 
+
+def cadastro():
+    if cadastro_login_string.get() == '' or cadastro_senha_string.get() == '' or cadastro_senha_confirm_string.get() == '':
+        messagebox.showerror('Erro', 'Preencha todos os campos')
+    else:
+        if cadastro_senha_string.get() == cadastro_senha_confirm_string.get():
+            try:
+                encrypted_password = hashlib.sha256(cadastro_senha_string.get().encode()).hexdigest()
+                register_user(cadastro_login_string.get(), encrypted_password)
+                messagebox.showinfo('Sucesso', 'Usuário cadastrado com sucesso')
+            except:
+                messagebox.showerror('Erro', 'Nome de usuário indisponível')
+        else:
+            messagebox.showerror('Erro', 'As senhas digitadas são diferentes')
+
+
+def cadastro_window():
+    global cadastro_login_string
+    global cadastro_senha_string
+    global cadastro_senha_confirm_string
+    cadastro_window = ttk.Toplevel(login_window)
+    cadastro_window.title('Cadastrar novo usuário')
+    cadastro_window.geometry('300x250')
+    cadastro_window.grab_set()
+    titulo = ttk.Label(cadastro_window, text = 'Cadastro', font = 'montserrat 24')
+    titulo.pack()
+    input_frame = ttk.Frame(cadastro_window)
+    cadastro_login_string = ttk.StringVar()
+    cadastro_senha_string = ttk.StringVar()
+    cadastro_senha_confirm_string = ttk.StringVar()
+    login_label = ttk.Label(input_frame, text = 'Login:')
+    login_entry = ttk.Entry(input_frame, width = 20, bootstyle="dark", textvariable = cadastro_login_string)
+    login_label.grid(row = 0, column = 1)
+    login_entry.grid(row = 1, column = 1)
+    senha_label = ttk.Label(input_frame, text = 'Senha:')
+    senha_entry = ttk.Entry(input_frame, width = 20, show = '*', bootstyle="dark", textvariable = cadastro_senha_string)
+    senha_label.grid(row = 2, column = 1)
+    senha_entry.grid(row = 3, column = 1)
+    senha_confirm = ttk.Label(input_frame, text = 'Repita a Senha:')
+    senha_confirm_entry = ttk.Entry(input_frame, width = 20, show = '*', bootstyle="dark", textvariable = cadastro_senha_confirm_string)
+    senha_confirm.grid(row = 4, column = 1)
+    senha_confirm_entry.grid(row = 5, column = 1)
+    cadastro_button = ttk.Button(input_frame, text = 'Cadastrar', command = cadastro, bootstyle = 'info')
+    cadastro_button.grid(row = 6, column = 1, pady = 10)
+    input_frame.pack()
+    
 
 # inicializa o programa pela janela de login
 login_window = ttk.Window(themename = 'flatly')
@@ -391,5 +439,7 @@ login_entry.focus_set()
 senha_label.grid(row = 2, column = 1)
 senha_entry.grid(row = 3, column = 1,)
 login_button.grid(row = 5, column = 1, pady = 10)
+cadastro_button = ttk.Button(login_frame, text = 'Cadastrar Novo Usuário', command = cadastro_window, bootstyle="success")
+cadastro_button.grid(row = 6, column = 1, pady = 10)
 login_frame.pack()
 login_window.mainloop()
