@@ -78,7 +78,7 @@ def add_outer_func():
             messagebox.showerror('Erro', 'Erro ao adicionar produto')
 
 
-# abre e constrói a janela de adicionar
+# abre e constrói a janela para adicionar produtos
 def open_add_window():
     global id_add_string
     global nome_add_string

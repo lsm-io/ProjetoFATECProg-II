@@ -10,7 +10,7 @@ def validate_login(user, password):
     connection.close()
     return item
 
-
+# Criação de um novo usuário
 def register_user(username, password):
     connection = sqlite3.connect("loja.db")
     cursor = connection.cursor()
